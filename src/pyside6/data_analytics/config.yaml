@@ -1,0 +1,188 @@
+risk_model_parameter_file: ref_data/model_inputs-v2.xlsx
+
+indoor_outdoor_weighting: 80
+
+GIS_dataset_IDs:
+  - "0ec8512ad21e4bb987d7e848d14e7e24" # structures ID
+  - "f092c20803a047cba81fbf1e30eff0b5" # parks ID
+  - "f42ecc08a3634182b8678514af35fac3" # transportation ID
+
+road_layer_line_widths:
+  Primary_Roads: 15
+  Secondary_Roads_72_1k_scale: 8
+  Local_Roads: 3
+
+constants:
+  UTM_BASE_NORTHERN_HEMISPHERE: 32600
+  WGS84_EPSG: 4326
+  SQ_METERS_PER_ACRE: 4046.86
+  SQ_METERS_PER_SQ_MILE: 2_589_988.11
+
+risk_method_settings:
+  perAreaRadio:
+    risk_col: Average risk per size of structure
+    risk_fldr: Average Risk per Size of Structure
+    alt_risk_col: Risk per Area (Acre)
+    alt_risk_fldr: Risk Per Unit Area
+  perDURadio:
+    risk_col: Average risk per structure
+    risk_fldr: Average Risk per Structure
+    alt_risk_col: Estimated Average Risk per Structure Type
+    alt_risk_fldr: Estimated Average Risk per Structure Type
+  perFractionRadio:
+    risk_col: Local individual structure risk
+    risk_fldr: Local Individual Structure Risk
+    alt_risk_col: Individual Structure Risk
+    alt_risk_fldr: Individual Structure Risk
+  default:
+    risk_col: Local individual structure risk
+    risk_fldr: Unknown
+    alt_risk_col: Individual Structure Risk
+    alt_risk_fldr: Unknown 
+
+demographics:
+  - full_name: elderly
+    weight: elderly_weight
+  - full_name: newborn
+    weight: newborn_weight
+  - full_name: vulnerable
+    weight: vulnerable_weight
+
+locations:
+  - full_name: Religious
+    short_name: relig
+    indoor: true
+    weight: religious_weight
+    fema_keys: 
+      - Religious
+    nsi_keys:
+      - REL1 # REL1 = Church
+  - full_name: Education
+    short_name: edu
+    indoor: true
+    weight: education_weight
+    fema_keys:
+      - Education
+    nsi_keys:
+      - EDU1 # EDU1 = School
+      - EDU2 # EDU2 = University
+  - full_name: Hospital
+    short_name: hosp
+    indoor: true
+    weight: hospital_weight
+    fema_keys:
+      - Hospital
+      - Medical Office/Clinic
+    nsi_keys:
+      - COM6 # COM6 = Medical Office
+      - COM7 # COM7 = Hospital
+  - full_name: Industrial
+    short_name: ind
+    indoor: true
+    weight: industrial_weight
+    fema_keys: 
+      - Industrial
+      - Parking
+      - Emergency Response
+      - Utility and Misc
+    nsi_keys:
+      - Industrial
+      - IND
+  - full_name: Eldercare
+    short_name: eldercare
+    indoor: true
+    weight: eldercare_weight
+    fema_keys:
+      - Nursing Home
+    nsi_keys:
+      - RES6 # RES6 = Nursing Home
+  - full_name: Residential
+    short_name: res
+    indoor: true
+    weight: residential_weight
+    fema_keys:
+      - Residential
+    nsi_keys:
+      - Residential
+      - RES
+  - full_name: Commercial
+    short_name: comm
+    indoor: true 
+    weight: commercial_weight
+    fema_keys:
+      - Commercial
+      - Assembly
+    nsi_keys:
+      - Commercial
+      - Public
+      - COM
+      - PUB
+  - full_name: Agricultural
+    short_name: ag
+    indoor: false
+    weight: agricultural_weight
+    fema_keys:
+      - Agricultural
+    nsi_keys:
+      - AGR1 # AGR1 = Agricultural
+  - full_name: Office
+    short_name: "off" # need double quotes to prevent yaml parsing error due to "off" being a reserved word in yaml
+    indoor: true
+    weight: office_weight
+    fema_keys:
+      - Government
+      - Profession/Technical Services
+      - Other Educational Buildings
+      - High Technology
+    nsi_keys:
+      - COM4 # COM4=Technical
+      - GOV1
+  - full_name: Primary Roads
+    short_name: primRd
+    indoor: false
+    weight: primary_road_weight
+    fema_keys: null
+    nsi_keys: null
+  - full_name: Secondary Roads
+    short_name: secRd
+    indoor: false
+    weight: secondary_road_weight
+    fema_keys: null
+    nsi_keys: null
+  - full_name: Local Roads
+    short_name: localRd
+    indoor: false
+    weight: local_road_weight
+    fema_keys: null
+    nsi_keys: null
+  - full_name: Park
+    short_name: park
+    indoor: false
+    weight: park_weight
+    fema_keys: null
+    nsi_keys: null
+  - full_name: Childcare
+    short_name: null
+    indoor: null
+    weight: null
+    fema_keys: null
+    nsi_keys: null
+  - full_name: Critical Infrastructure
+    short_name: null
+    indoor: null
+    weight: null
+    fema_keys: null
+    nsi_keys: 
+      - GOV2 # GOV2 = Emergency Response
+  - full_name: Unclassified
+    short_name: null
+    indoor: null
+    weight: null
+    fema_keys:
+      - Unclassified
+    nsi_keys: null
+
+
+
+
+  

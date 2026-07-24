@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8" />
+  <title>Leaflet Draw Example</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="leaflet.css" />
+  <link rel="stylesheet" href="leaflet.draw.css"/>
+  <style>
+    html, body, #map { height: 100%; margin: 0; padding: 0; }
+  </style>
+</head>
+<body>
+  <div id="map"></div>
+  <!-- Load JS libraries -->
+  <script src="leaflet.js"></script>
+  <script src="leaflet.draw.js"></script>
+  <!-- QWebChannel is needed for Python-JS communication -->
+  <script src="qwebchannel.js"></script>
+  <script>
+    // Set up the map and drawing tools
+    // 39, -95.5 is the center of the US (Topeka, KS)
+    // Zoom level 4 corresponds to whole US view
+    var map = L.map('map').setView([39, -95.5], 4);
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png').addTo(map);
+
+    var drawnItems = new L.FeatureGroup();
+    map.addLayer(drawnItems);
+
+    var drawControl = new L.Control.Draw({
+      draw: {
+        polygon: false,
+        polyline: false,
+        circle: false,
+        marker: false,
+        circlemarker: false,
+        rectangle: true
+      },
+      edit: {
+        featureGroup: drawnItems
+      }
+    });
+    map.addControl(drawControl);
+
+    // Store the last drawn rectangle globally
+    var lastRectangle = null;
+
+    map.on(L.Draw.Event.CREATED, function (e) {
+      var layer = e.layer;
+      drawnItems.addLayer(layer);
+      if (layer instanceof L.Rectangle) {
+        lastRectangle = layer;
+      }
+    });
+
+    // Update lastRectangle on edit
+    map.on('draw:edited', function (e) {
+      var layers = e.layers;
+      layers.eachLayer(function (layer) {
+        if (layer instanceof L.Rectangle) {
+          lastRectangle = layer;
+        }
+      });
+    });
+
+    // Function to get the bounding box coordinates
+    function getBoundingBoxCoords() {
+      if (lastRectangle) {
+        var bounds = lastRectangle.getBounds();
+        var sw = bounds.getSouthWest();
+        var ne = bounds.getNorthEast();
+        result = JSON.stringify({
+          min_lng: Number(sw.lng),
+          min_lat: Number(sw.lat),
+          max_lng: Number(ne.lng),
+          max_lat: Number(ne.lat)
+        });
+        return result
+      } else {
+        return "";
+      }
+    }
+
+    function invalidateMapSize() {
+      map.invalidateSize();
+    }
+  </script>
+</body>
+</html>
