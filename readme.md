@@ -32,3 +32,5 @@ python __main__.py
 ```
 
 ## BSAFE
+
+See user guides for operation instructions. 
